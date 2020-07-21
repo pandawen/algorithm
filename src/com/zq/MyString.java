@@ -3,6 +3,46 @@ package com.zq;
 import java.util.*;
 
 public class MyString {
+
+    /**
+     * 给定一个只包含大写英文字母的字符串,给出重新排列的所有不同的排列数
+     * 例:
+     * 输入 ABA 输出 3
+     * 输入 ABCDEFGHHA 输出 907200
+     */
+    public static int cntS(String s){
+        //思路:由于只用给出数量,所以其实就是对原字符串的数组做个全排列,然后把重复元素相对位置重复的情况除掉
+        //其实就是A(n,n)/A(m,m)
+        // n是所有字符数,m是重复的字符数,要分别统计出来,比如A有两个就除以一次A22,B有三个就除以一次A33
+        HashMap<Character, Integer> map = new HashMap<>();
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        char temp =0;
+        for (int i = 0; i < len; i++) {
+            temp=chars[i];
+            if(map.containsKey(temp)){
+                map.put(temp,map.get(temp)+1);
+            }else
+                map.put(temp,1);
+        }
+        int totalNum=1;
+        for (int i = 2; i <= len; i++) {
+            totalNum*=i;
+        }
+        Iterator<Map.Entry<Character, Integer>> iterator = map.entrySet().iterator();
+        while ((iterator.hasNext())){
+            Map.Entry<Character, Integer> next = iterator.next();
+            if(next.getValue()>1){
+                int dupNum=1;
+                for (int i = 2; i <= next.getValue(); i++) {
+                    dupNum*=i;
+                }
+                totalNum/=dupNum;
+            }
+        }
+        return totalNum;
+
+    }
     /**
      * 逆置一个数组
      * @param s
