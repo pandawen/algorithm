@@ -44,7 +44,7 @@ public class MyString {
 
     }
     /**
-     * 逆置一个数组
+     * 逆置一个字符串
      * @param s
      * @return
      */
